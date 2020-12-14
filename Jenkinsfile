@@ -3,9 +3,18 @@
 
 pipeline {
     agent any
-    environment {
-        withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'awsCredentials', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']])
+
+    parameters {
+        string(name: 'environment', defaultValue: 'default', description: 'Workspace/environment file to use for deployment')
+        booleanParam(name: 'autoApprove', defaultValue: false, description: 'Automatically run apply after generating plan?')
     }
+
+    environment {
+        AWS_ACCESS_KEY_ID     = awsCredentials('AWS_ACCESS_KEY_ID')
+        AWS_SECRET_ACCESS_KEY = awsCredentials('AWS_SECRET_ACCESS_KEY')
+        TF_IN_AUTOMATION      = '1'
+    }
+
     stages {
         stage('checkout') {
             steps {
