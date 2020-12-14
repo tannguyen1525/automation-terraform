@@ -15,9 +15,9 @@ pipeline {
         stage('init') {
             steps {
                 withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'awsCredentials', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
-                    ansiColor{
-                        sh 'terraform init'
-                    }
+                    
+                sh 'terraform init'
+                    
                 }
             }
         }
@@ -26,9 +26,9 @@ pipeline {
         stage('plan') {
             steps {
                 withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'awsCredentials', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
-                    ansiColor{
-                        h 'terraform plan'
-                    }
+                    
+                    sh 'terraform plan'
+                    
                 }
             }
         }
@@ -38,9 +38,9 @@ pipeline {
         stage('apply') {
             steps {
                 withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'awsCredentials', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
-                    ansiColor{
-                        sh 'terraform apply --auto-approve'
-                    }
+                    
+                    sh 'terraform apply --auto-approve'
+                    
                 }
             }
         }
@@ -49,9 +49,9 @@ pipeline {
         stage('show') {
             steps {
                 withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'awsCredentials', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
-                    ansiColor{
-                        sh 'terraform show'
-                    }
+                    
+                    sh 'terraform show'
+                    
                 }
             }
         }
