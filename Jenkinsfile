@@ -3,7 +3,7 @@
 
 pipeline {
     agent any
-    stage ('checkout') {
+    stage('checkout') {
         node {
             cleanWs ()
             checkout scm
@@ -11,7 +11,7 @@ pipeline {
     }
 
     // Run terraform init
-    stage ('init') {
+    stage('init') {
         node {
             withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'awsCredentials', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
                 ansiColor{
@@ -22,7 +22,7 @@ pipeline {
     }
 
     // Run terraform plan
-    stage ('plan') {
+    stage('plan') {
         node {
             withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'awsCredentials', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
                 ansiColor{
@@ -32,11 +32,10 @@ pipeline {
         }
     }
 
-    if (env.BARNCH_NAME == 'master' ) {
         
-        // Run terraform apply
-        stage ('apply') {
-           node {
+   // Run terraform apply
+    stage('apply') {
+       node {
             withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'awsCredentials', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
                 ansiColor{
                     sh 'terraform apply --auto-approve'
@@ -45,9 +44,9 @@ pipeline {
         }
     }
         
-        // Run terraform show
-        stage ('show') {
-            node {
+    // Run terraform show
+    stage('show') {
+        node {
             withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'awsCredentials', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
                 ansiColor{
                     sh 'terraform show'
@@ -55,7 +54,6 @@ pipeline {
                 }
             }
         }
-    }
-    currentBuild.result = 'SUCCESS'
+   
 }
 
