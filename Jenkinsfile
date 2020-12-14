@@ -1,7 +1,7 @@
 // Jenkinsfile
 //String credentialId = 'awsCredentials'
 
-Pipeline {
+pipeline {
     agent any
     stage ('checkout') {
         node {
@@ -51,9 +51,9 @@ Pipeline {
             withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'awsCredentials', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
                 ansiColor{
                     sh 'terraform show'
+                    }
                 }
             }
-        }
         }
     }
     currentBuild.result = 'SUCCESS'
