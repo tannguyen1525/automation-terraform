@@ -3,6 +3,9 @@
 
 pipeline {
     agent any
+    environment {
+        withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'awsCredentials', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']])
+    }
     stages {
         stage('checkout') {
             steps {
@@ -14,22 +17,17 @@ pipeline {
     // Run terraform init
         stage('init') {
             steps {
-                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'awsCredentials', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
-                    
-                sh 'terraform init'
-                    
-                }
+                                     
+                sh 'terraform init' 
+                
             }
         }
 
     // Run terraform plan
         stage('plan') {
             steps {
-                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'awsCredentials', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
                     
-                    sh 'terraform plan'
-                    
-                }
+                    sh 'terraform plan'   
             }
         }
 
@@ -37,22 +35,18 @@ pipeline {
    // Run terraform apply
         stage('apply') {
             steps {
-                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'awsCredentials', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
                     
                     sh 'terraform apply --auto-approve'
                     
-                }
             }
         }
         
     // Run terraform show
         stage('show') {
             steps {
-                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'awsCredentials', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
                     
                     sh 'terraform show'
                     
-                }
             }
         }
     }
