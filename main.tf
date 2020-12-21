@@ -19,31 +19,31 @@ resource "aws_instance" "default" {
     ami = "$(var.ami)"
     //count = "$(var.count)"
     key_name = "$(var.key_name)"
-    vpc_security_group_ids = [ "$(aws_security_group_rule.ingress_rules.id)" ]
+    vpc_security_group_ids = [ "$(aws_security_group.ingress_rules.id)" ]
     source_dest_check = false
     instance_type = "$(var.instance_type)"
 
-    tags {
+    tags = {
         Name = "EC2-linux"
     }
   
 }
 
 # Create Security Group for EC2
-resource "aws_security_group_rule" "ingress_rules" {
-   ingress {
+resource "aws_security_group" "ingress_rules" {
+   ingress = {
     from_port = 80
     to_port = 80
     protocol = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-  ingress {
+  ingress = {
     from_port = 22
     to_port = 22
     protocol = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }    
-  egress {
+  egress = {
     from_port = 0
     to_port = 0
     protocol = "-1"
