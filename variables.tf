@@ -17,3 +17,4 @@ variable "ami" {
     default = "ami-13be557e"
   
 }
+
