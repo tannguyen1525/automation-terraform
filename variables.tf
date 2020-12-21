@@ -1,7 +1,3 @@
-variable "count" {
-  default = 1
-}
-
 variable "key_name" {
   description = "Private key to use with EC2 instance"
   default = "Linux-instance"
